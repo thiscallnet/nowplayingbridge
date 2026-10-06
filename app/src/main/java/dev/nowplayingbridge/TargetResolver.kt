@@ -27,7 +27,12 @@ class TargetResolver(
         val KNOWN_TARGETS = listOf(
             MusicTarget("app.morphe.android.apps.youtube.music", 100),
             // Explicitly supported patched YouTube Music variant.
-            MusicTarget("anddea.youtube.music", 75),
+            MusicTarget("anddea.youtube.music", 90),
+            // ReVanced's GmsCore package name.
+            MusicTarget("app.revanced.android.apps.youtube.music", 80),
+            // RVX default and clone package names.
+            MusicTarget("app.rvx.android.apps.youtube.music", 70),
+            MusicTarget("com.rvx.android.apps.youtube.music", 65),
             MusicTarget("com.google.android.apps.youtube.music", 50),
         )
 

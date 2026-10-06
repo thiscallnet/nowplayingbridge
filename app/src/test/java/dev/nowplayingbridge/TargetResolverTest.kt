@@ -7,6 +7,9 @@ import org.junit.Test
 class TargetResolverTest {
     private val morphe = "app.morphe.android.apps.youtube.music"
     private val anddea = "anddea.youtube.music"
+    private val revanced = "app.revanced.android.apps.youtube.music"
+    private val rvx = "app.rvx.android.apps.youtube.music"
+    private val rvxClone = "com.rvx.android.apps.youtube.music"
     private val official = "com.google.android.apps.youtube.music"
 
     private fun resolver(vararg handlers: String) =
@@ -23,6 +26,13 @@ class TargetResolverTest {
 
     @Test fun prefersVerifiedPatchedVariantToOfficial() {
         assertEquals(anddea, resolver(official, anddea).resolve())
+    }
+
+    @Test fun prefersKnownPatchedPackagesInConfiguredOrder() {
+        assertEquals(anddea, resolver(official, rvxClone, rvx, revanced, anddea).resolve())
+        assertEquals(revanced, resolver(official, rvxClone, rvx, revanced).resolve())
+        assertEquals(rvx, resolver(official, rvxClone, rvx).resolve())
+        assertEquals(rvxClone, resolver(official, rvxClone).resolve())
     }
 
     @Test fun rejectsUnrelatedHandlersAndMissingTargets() {
