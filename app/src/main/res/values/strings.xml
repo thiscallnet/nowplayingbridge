@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Morphe Bridge</string>
+    <string name="no_target">No compatible YouTube Music app found</string>
+    <string name="target_unavailable">Could not open YouTube Music</string>
+    <string name="no_song_details">No song details found</string>
+</resources>
