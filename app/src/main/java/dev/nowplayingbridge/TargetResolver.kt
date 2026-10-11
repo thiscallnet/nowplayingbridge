@@ -39,10 +39,15 @@ class TargetResolver(
         fun from(context: Context): TargetResolver = TargetResolver(context.packageName, {
             val search = Intent(Intent.ACTION_VIEW, Uri.parse(PROBE_SEARCH_URL))
                 .addCategory(Intent.CATEGORY_DEFAULT)
-            context.packageManager.queryIntentActivities(search, PackageManager.MATCH_DEFAULT_ONLY)
-                .asSequence()
-                .filter { it.activityInfo.exported }
-                .map { it.activityInfo.packageName }
+            // Untargeted web queries omit apps whose supported links are disabled.
+            // Forwarding already specifies a package, so probe the same way.
+            KNOWN_TARGETS.asSequence()
+                .filter { target ->
+                    search.setPackage(target.packageName)
+                    context.packageManager.queryIntentActivities(search, PackageManager.MATCH_DEFAULT_ONLY)
+                        .any { it.activityInfo.exported }
+                }
+                .map { it.packageName }
                 .toSet()
         })
 
